@@ -18,7 +18,7 @@
 
       <input type="checkbox" /><label>星座</label>
       <input type="checkbox" /><label>光照</label>
-      <input type="checkbox" /><label>大气层</label>
+      <input type="checkbox" v-model="atmosphere" @click="setAtmosphere" /><label>大气层</label>
 
       <br />
     </div>
@@ -44,6 +44,11 @@ function setLight() {
   env.value.setLight(light.value)
 }
 
+
+const atmosphere = ref(true)
+function setAtmosphere(){
+  env.value.setAtmosphere(!atmosphere.value)
+}
 onMounted(() => {
   Cesium.Ion.defaultAccessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNWY5YzhhMS05ZmYxLTQ5NzgtOTcwNC0zZmViNGFjZjc4ODEiLCJpZCI6ODU0MjMsImlhdCI6MTY0Njk4ODA1NX0.4-plF_5ZfEMMpHqJyefkDCFC8JWkFw39s3yKVcNg55c";
