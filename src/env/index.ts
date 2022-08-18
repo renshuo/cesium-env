@@ -50,6 +50,18 @@ export default class CesiumEnv {
   }
 
   /**
+     设置是否启用光照
+   */
+  public setLighting(isShow: boolean) {
+    console.log('set lighting: ', isShow)
+    if (isShow === undefined) {
+      this.viewer.scene.globe.enableLighting = !this.viewer.scene.globe.enableLighting
+    } else {
+      this.viewer.scene.globe.enableLighting = isShow
+    }
+  }
+
+  /**
      设置光类型
   */
   public setLightType(light: string): void {
@@ -80,16 +92,20 @@ export default class CesiumEnv {
     }
   }
 
-  /**
-     设置是否启用光照
-   */
-  public setLighting(isShow: boolean) {
-    console.log('set lighting: ', isShow)
-    if (isShow === undefined) {
-      this.viewer.scene.globe.enableLighting = !this.viewer.scene.globe.enableLighting
-    } else {
-      this.viewer.scene.globe.enableLighting = isShow
+  public setMapMode(mapMode: string): void {
+    console.log("set map mode : ", mapMode)
+    switch(mapMode) {
+      case "2D":
+        this.viewer.scene.mode = Cesium.SceneMode.SCENE2D
+        break
+      case "3D":
+        this.viewer.scene.mode = Cesium.SceneMode.SCENE3D
+        break
+      case "co":
+        this.viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW
+        break
+      default:
+        console.error("invalid mode: ", mapMode)
     }
   }
-
 }

@@ -19,6 +19,13 @@
       <input type="checkbox" v-model="snow" @click="setSnow" /><label>雪</label>
       <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
       <br />
+
+      <select v-model="mode" @change="setMode">
+        <option label="2D" value="2D" />
+        <option label="3D" value="3D" />
+        <option label="2.5D" value="co" />
+      </select>
+
     </div>
 
     <div id="mapContainer"></div>
@@ -65,6 +72,12 @@ const atmosphere = ref(true)
 function setAtmosphere(){
   env.value.setAtmosphere(!atmosphere.value)
 }
+
+const mode = ref()
+function setMode(){
+  env.value.setMapMode(mode.value)
+}
+
 onMounted(() => {
   Cesium.Ion.defaultAccessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNWY5YzhhMS05ZmYxLTQ5NzgtOTcwNC0zZmViNGFjZjc4ODEiLCJpZCI6ODU0MjMsImlhdCI6MTY0Njk4ODA1NX0.4-plF_5ZfEMMpHqJyefkDCFC8JWkFw39s3yKVcNg55c";
@@ -79,6 +92,7 @@ onMounted(() => {
     selectionIndicator: false, //是否显示选取指示器组件
     timeline: true, //是否显示时间轴
     animation: true, //是否创建动画小器件，左下角仪表
+    sceneModePicker: false,
     shouldAnimate: true,
   });
 
