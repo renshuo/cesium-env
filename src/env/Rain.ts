@@ -73,7 +73,6 @@ export default class CesiumRain {
 
   startRain() {
     this.scene.globe.depthTestAgainstTerrain = true;
-    this.testCamera()
     this.rain = this.init()
     this.scene.primitives.removeAll();
     this.scene.primitives.add(this.rain);

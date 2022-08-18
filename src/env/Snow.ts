@@ -76,7 +76,6 @@ export default class CesiumSnow {
 
   startSnow() {
     this.scene.globe.depthTestAgainstTerrain = true;
-    this.testCamera()
     this.snow = this.init()
     this.scene.primitives.removeAll();
     this.scene.primitives.add(this.snow);

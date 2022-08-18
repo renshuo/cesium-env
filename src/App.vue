@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <div style="position: fixed; z-index: 10; left: 20px; top: 20px">
+    <div style="position: fixed; z-index: 10; left: 20px; top: 20px; color: white">
       <!-- <button class="tbt" @click="">大气层</button> -->
 
 
@@ -18,7 +18,6 @@
       <input type="checkbox" v-model="rain" @click="setRain" /><label>雨</label>
       <input type="checkbox" v-model="snow" @click="setSnow" /><label>雪</label>
       <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
-      <input type="checkbox" /><label>星座</label>
       <br />
     </div>
 
