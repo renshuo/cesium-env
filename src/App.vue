@@ -73,7 +73,7 @@ function setAtmosphere(){
   env.value.setAtmosphere(!atmosphere.value)
 }
 
-const mode = ref()
+const mode = ref("3D")
 function setMode(){
   env.value.setMapMode(mode.value)
 }
@@ -90,8 +90,8 @@ onMounted(() => {
   let viewer = new Cesium.Viewer("mapContainer", {
     infoBox: false, //是否显示信息框
     selectionIndicator: false, //是否显示选取指示器组件
-    timeline: true, //是否显示时间轴
-    animation: true, //是否创建动画小器件，左下角仪表
+    timeline: false, //是否显示时间轴
+    animation: false, //是否创建动画小器件，左下角仪表
     sceneModePicker: false,
     shouldAnimate: true,
   });
