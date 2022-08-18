@@ -3,8 +3,8 @@
     <div style="position: fixed; z-index: 10; left: 20px; top: 20px">
       <!-- <button class="tbt" @click="">大气层</button> -->
 
-      <input type="checkbox" /><label>光照类型</label>
 
+      <input type="checkbox" v-model="lighting" @click="setLighting"/><label>光照</label>
       <select v-model="light" @change="setLightType">
         <option label="日光" value="Sun" />
         <option label="月光" value="Moon" />
@@ -12,14 +12,13 @@
         <option label="直接光" value="Direct" />
         <option label="RGB光" value="Color" />
       </select>
-      <input type="checkbox" /><label>雨</label>
-      <input type="checkbox" /><label>雪</label>
-      <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
-
-      <input type="checkbox" /><label>星座</label>
-      <input type="checkbox" v-model="lighting" @click="setLighting"/><label>光照</label>
       <input type="checkbox" v-model="atmosphere" @click="setAtmosphere" /><label>大气层</label>
+      <br />
 
+      <input type="checkbox" v-model="rain" @click="setRain" /><label>雨</label>
+      <input type="checkbox" v-model="snow" @click="setSnow" /><label>雪</label>
+      <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
+      <input type="checkbox" /><label>星座</label>
       <br />
     </div>
 
@@ -37,6 +36,17 @@ import CesiumEnv from './env/index.ts'
 
 const env = ref()
 
+
+const rain = ref(false)
+function setRain() {
+  env.value.setRain(!rain.value)
+}
+
+const snow = ref(false)
+function setSnow() {
+  env.value.setSnow(!snow.value)
+}
+
 const light = ref()
 function setLightType() {
   env.value.setLightType(light.value)
@@ -46,7 +56,6 @@ const lighting = ref(true)
 function setLighting() {
   env.value.setLighting(!lighting.value)
 }
-
 
 const fog = ref(true)
 function setFog() {
@@ -71,11 +80,11 @@ onMounted(() => {
     selectionIndicator: false, //是否显示选取指示器组件
     timeline: true, //是否显示时间轴
     animation: true, //是否创建动画小器件，左下角仪表
+    shouldAnimate: true,
   });
 
   env.value = new CesiumEnv(viewer, {
   })
-
 });
 </script>
 

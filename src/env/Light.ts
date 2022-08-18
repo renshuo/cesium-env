@@ -16,7 +16,7 @@ export class CesiumLight {
     this.viewer = viewer
   }
 
-  public setLight(light: LightType) {
+  public setLightType(light: LightType) {
     console.log("set map env: light: ", light)
     let scene = this.viewer.scene
     scene.globe.enableLighting = true;

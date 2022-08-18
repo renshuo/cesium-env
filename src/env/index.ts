@@ -1,6 +1,9 @@
 import * as Cesium from 'cesium';
 import {LightType, CesiumLight} from './Light';
 
+import CesiumSnow from './Snow';
+import CesiumRain from './Rain';
+
 export {LightType}
 
 export default class CesiumEnv {
@@ -18,16 +21,33 @@ export default class CesiumEnv {
 
   private viewer: Cesium.Viewer
   private cl: CesiumLight
+  private snow: CesiumSnow
+  private rain: CesiumRain
 
   constructor(viewer: Cesium.Viewer, env: {}) {
     this.viewer = viewer
     this.cl = new CesiumLight(viewer)
+    this.snow = new CesiumSnow(viewer.scene)
+    this.rain = new CesiumRain(viewer.scene)
+
     Object.assign(this.env, env)
     if (!this.env.showCredit) {
       viewer._cesiumWidget._creditContainer.style.display = "none"; // 隐藏logo
     }
   }
 
+  /**
+    设置是否下雨
+  */
+  public setRain(isShow: boolean) {
+    this.rain.setRain(isShow)
+  }
+  /**
+    设置是否下雪
+  */
+  public setSnow(isShow: boolean) {
+    this.snow.setSnow(isShow)
+  }
 
   /**
      设置光类型
