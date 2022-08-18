@@ -28,7 +28,6 @@ export default class CesiumRain {
     this.rainParticleSize,
     this.rainParticleSize * 2.0
   );
-  rainGravityScratch = new Cesium.Cartesian3();
 
   private init(): Cesium.ParticleSystem {
     return new Cesium.ParticleSystem({
@@ -44,11 +43,12 @@ export default class CesiumRain {
       endColor: new Cesium.Color(0.27, 0.5, 0.7, 0.98),
       imageSize: this.rainImageSize,
       updateCallback: (particle, dt) => {
-        this.rainGravityScratch = Cesium.Cartesian3.normalize(particle.position, this.rainGravityScratch);
-        this.rainGravityScratch = Cesium.Cartesian3.multiplyByScalar(this.rainGravityScratch, -1050.0, this.rainGravityScratch);
+        let rainGravityScratch = new Cesium.Cartesian3();
+        rainGravityScratch = Cesium.Cartesian3.normalize(particle.position, rainGravityScratch);
+        rainGravityScratch = Cesium.Cartesian3.multiplyByScalar(rainGravityScratch, -1050.0, rainGravityScratch);
         particle.position = Cesium.Cartesian3.add(
           particle.position,
-          this.rainGravityScratch,
+          rainGravityScratch,
           particle.position
         );
 

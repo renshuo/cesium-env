@@ -21,7 +21,6 @@ export default class CesiumSnow {
     this.snowParticleSize * 2.0,
     this.snowParticleSize * 2.0
   );
-  snowGravityScratch = new Cesium.Cartesian3();
 
 
   private init(): Cesium.ParticleSystem {
@@ -40,16 +39,18 @@ export default class CesiumSnow {
       minimumImageSize: this.minimumSnowImageSize,
       maximumImageSize: this.maximumSnowImageSize,
       updateCallback: (particle, dt) => {
-        this.snowGravityScratch = Cesium.Cartesian3.normalize(
+        let snowGravityScratch = new Cesium.Cartesian3();
+
+        snowGravityScratch = Cesium.Cartesian3.normalize(
           particle.position,
-          this.snowGravityScratch
+          snowGravityScratch
         );
         Cesium.Cartesian3.multiplyByScalar(
-          this.snowGravityScratch,
+          snowGravityScratch,
           Cesium.Math.randomBetween(-30.0, -300.0),
-          this.snowGravityScratch
+          snowGravityScratch
         );
-        particle.velocity = Cesium.Cartesian3.add(particle.velocity, this.snowGravityScratch, particle.velocity);
+        particle.velocity = Cesium.Cartesian3.add(particle.velocity, snowGravityScratch, particle.velocity);
         const distance = Cesium.Cartesian3.distance(this.scene.camera.position, particle.position);
         if (distance > this.snowRadius) {
           particle.endColor.alpha = 0.0;
@@ -75,6 +76,7 @@ export default class CesiumSnow {
 
   startSnow() {
     this.scene.globe.depthTestAgainstTerrain = true;
+    this.testCamera()
     this.snow = this.init()
     this.scene.primitives.removeAll();
     this.scene.primitives.add(this.snow);
