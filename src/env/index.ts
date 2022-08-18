@@ -96,13 +96,13 @@ export default class CesiumEnv {
     console.log("set map mode : ", mapMode)
     switch(mapMode) {
       case "2D":
-        this.viewer.scene.mode = Cesium.SceneMode.SCENE2D
+        this.viewer.scene.morphTo2D(2.0)
         break
       case "3D":
-        this.viewer.scene.mode = Cesium.SceneMode.SCENE3D
+        this.viewer.scene.morphTo3D(2.0)
         break
       case "co":
-        this.viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW
+        this.viewer.scene.morphToColumbusView(2.0)
         break
       default:
         console.error("invalid mode: ", mapMode)
