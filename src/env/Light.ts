@@ -1,11 +1,11 @@
 import * as Cesium from 'cesium';
 
-export enum Light {
-  SunLight,
-  moonLight,
-  FlashLight,
-  DirectLight,
-  ColorLight
+export enum LightType {
+  Sun,
+  Moon,
+  Flash,
+  Direct,
+  Color
 }
 
 
@@ -16,20 +16,20 @@ export class CesiumLight {
     this.viewer = viewer
   }
 
-  public setLight(light: Light) {
+  public setLight(light: LightType) {
     console.log("set map env: light: ", light)
     let scene = this.viewer.scene
     scene.globe.enableLighting = true;
     switch (light) {
 
-      case Light.SunLight: {
+      case LightType.Sun: {
         scene.light = new Cesium.SunLight()
         scene.globe.dynamicAtmosphereLighting = true;
         scene.globe.dynamicAtmosphereLightingFromSun = false;
         break;
       }
 
-      case Light.MoonLight: {
+      case LightType.Moon: {
         scene.light = new Cesium.DirectionalLight({
           direction: this.getMoonDirection(), // Updated every frame
           color: new Cesium.Color(0.9, 0.925, 1.0),
@@ -39,7 +39,7 @@ export class CesiumLight {
         break;
       }
 
-      case Light.FlashLight: {
+      case LightType.Flash: {
         scene.light = new Cesium.DirectionalLight({
           direction: scene.camera.directionWC, // Updated every frame
         });
@@ -48,7 +48,7 @@ export class CesiumLight {
         break;
       }
 
-      case Light.DirectLight: {
+      case LightType.Direct: {
         scene.light = new Cesium.DirectionalLight({
           direction: new Cesium.Cartesian3(
             0.2454278300540191,
@@ -59,7 +59,7 @@ export class CesiumLight {
         break;
       }
 
-      case Light.ColorLight: {
+      case LightType.Color: {
         scene.light = new Cesium.DirectionalLight({
           direction: new Cesium.Cartesian3(
             -0.2454278300540191,

@@ -1,7 +1,7 @@
 import * as Cesium from 'cesium';
-import {Light, CesiumLight} from './Light';
+import {LightType, CesiumLight} from './Light';
 
-export {Light}
+export {LightType}
 
 export default class CesiumEnv {
 
@@ -18,6 +18,7 @@ export default class CesiumEnv {
 
   private viewer: Cesium.Viewer
   private cl: CesiumLight
+
   constructor(viewer: Cesium.Viewer, env: {}) {
     this.viewer = viewer
     this.cl = new CesiumLight(viewer)
@@ -27,14 +28,18 @@ export default class CesiumEnv {
     }
   }
 
-  public toggleRain(isRain: boolean): void {
-    console.log("toggle rain", isRain)
+
+  /**
+     设置光类型
+  */
+  public setLightType(light: string): void {
+    this.cl.setLightType(LightType[light])
   }
 
-  public setLight(light: string): void {
-    this.cl.setLight(Light[light])
-  }
 
+  /**
+    设置是否显示大气层
+  */
   public setAtmosphere(isShow: boolean) {
     console.log('set atmosphere: ', isShow)
     if (isShow === undefined) {
@@ -43,4 +48,28 @@ export default class CesiumEnv {
       this.viewer.scene.skyAtmosphere.show = isShow
     }
   }
+
+  /** 设置是否显示雾
+   */
+  public setFog(isShow: boolean): void {
+    console.log('set fog: ', isShow)
+    if (isShow === undefined) {
+      this.viewer.scene.fog.enabled = !this.viewer.scene.fog.enabled
+    } else {
+      this.viewer.scene.fog.enabled = isShow
+    }
+  }
+
+  /**
+     设置是否启用光照
+   */
+  public setLighting(isShow: boolean) {
+    console.log('set lighting: ', isShow)
+    if (isShow === undefined) {
+      this.viewer.scene.globe.enableLighting = !this.viewer.scene.globe.enableLighting
+    } else {
+      this.viewer.scene.globe.enableLighting = isShow
+    }
+  }
+
 }

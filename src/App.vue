@@ -3,21 +3,21 @@
     <div style="position: fixed; z-index: 10; left: 20px; top: 20px">
       <!-- <button class="tbt" @click="">大气层</button> -->
 
-      <input type="checkbox" /><label>光照</label>
+      <input type="checkbox" /><label>光照类型</label>
 
-      <select v-model="light" @change="setLight">
-        <option label="日光" value="SunLight" />
-        <option label="月光" value="MoonLight" />
-        <option label="亮光" value="FlashLight" />
-        <option label="直接光" value="DirectLight" />
-        <option label="RGB光" value="ColorLight" />
+      <select v-model="light" @change="setLightType">
+        <option label="日光" value="Sun" />
+        <option label="月光" value="Moon" />
+        <option label="亮光" value="Flash" />
+        <option label="直接光" value="Direct" />
+        <option label="RGB光" value="Color" />
       </select>
-      <input type="checkbox" @click="env.toggleRain" /><label>雨</label>
+      <input type="checkbox" /><label>雨</label>
       <input type="checkbox" /><label>雪</label>
-      <input type="checkbox" /><label>雾</label>
+      <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
 
       <input type="checkbox" /><label>星座</label>
-      <input type="checkbox" /><label>光照</label>
+      <input type="checkbox" v-model="lighting" @click="setLighting"/><label>光照</label>
       <input type="checkbox" v-model="atmosphere" @click="setAtmosphere" /><label>大气层</label>
 
       <br />
@@ -34,16 +34,24 @@ import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import CesiumEnv from './env/index.ts'
-import { Light } from './env/index.ts'
-
 
 const env = ref()
 
 const light = ref()
-function setLight() {
-  env.value.setLight(light.value)
+function setLightType() {
+  env.value.setLightType(light.value)
 }
 
+const lighting = ref(true)
+function setLighting() {
+  env.value.setLighting(!lighting.value)
+}
+
+
+const fog = ref(true)
+function setFog() {
+  env.value.setFog(!fog.value)
+}
 
 const atmosphere = ref(true)
 function setAtmosphere(){
