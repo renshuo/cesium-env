@@ -1,16 +1,44 @@
-# Vue 3 + TypeScript + Vite
+# cesium-env
+简单配置cesium的环境，包括光照，天气，大气层，以及地图转换。
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Recommended IDE Setup
+# 引入
+``` typescript
+import CesiumnEnv from 'cesium-env';
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+# 初始化
+```typescript
+  let env = new CesiumEnv(viewer, {})
+```
 
-## Type Support For `.vue` Imports in TS
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+# 功能
+## 更改光照
+```typescript
+  env.setLighting(true) // 是否启用光照
+  env.setLightType(lightType) //更改光照类型
+```
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+## 更改天气
+```typescript
+  env.setSnow(true) // 下雪
+  env.setRain(true) // 下雨
+  env.setFog(true) // 雾
+```
+
+## 大气层
+```typescript
+  env.setAtmosphere(true) //显示大气层
+```
+
+## 改变地图模式
+```typescript
+  env.setMapMode(mapMode) // 3D地图
+```
+mapMode取值为：
+``` 
+3D, 2D, co
+```
+co是2.5D模式的地图
