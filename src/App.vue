@@ -4,23 +4,23 @@
       <!-- <button class="tbt" @click="">大气层</button> -->
 
 
-      <input type="checkbox" v-model="lighting" @click="setLighting"/><label>光照</label>
-      <select v-model="light" @change="setLightType">
+      <input type="checkbox" v-model="envOpt.showLight" @click="setLighting"/><label>光照</label>
+      <select v-model="envOpt.lightType" @change="setLightType">
         <option label="日光" value="Sun" />
         <option label="月光" value="Moon" />
         <option label="亮光" value="Flash" />
         <option label="直接光" value="Direct" />
         <option label="RGB光" value="Color" />
       </select>
-      <input type="checkbox" v-model="atmosphere" @click="setAtmosphere" /><label>大气层</label>
+      <input type="checkbox" v-model="envOpt.showAir" @click="setAtmosphere" /><label>大气层</label>
       <br />
 
-      <input type="checkbox" v-model="rain" @click="setRain" /><label>雨</label>
-      <input type="checkbox" v-model="snow" @click="setSnow" /><label>雪</label>
-      <input type="checkbox" v-model="fog" @click="setFog"/><label>雾</label>
+      <input type="checkbox" v-model="envOpt.isRain" @click="setRain" /><label>雨</label>
+      <input type="checkbox" v-model="envOpt.isSnow" @click="setSnow" /><label>雪</label>
+      <input type="checkbox" v-model="envOpt.isFog" @click="setFog"/><label>雾</label>
       <br />
 
-      <select v-model="mode" @change="setMode">
+      <select v-model="envOpt.mapMode" @change="setMode">
         <option label="2D" value="2D" />
         <option label="3D" value="3D" />
         <option label="2.5D" value="co" />
@@ -42,39 +42,45 @@ import CesiumEnv from './env/index.ts'
 
 const env = ref()
 
-const rain = ref(false)
+const envOpt = ref({
+  isRain: false,
+  isSnow: false,
+  isFog: true,
+
+  showAir: true,
+  showLight: true,
+  lightType: 'Sun',
+
+  showCredit: false,
+
+  mapMode: '3D',
+})
 function setRain() {
-  env.value.setRain(!rain.value)
+  env.value.setRain(!envOpt.value.isRain)
 }
 
-const snow = ref(false)
 function setSnow() {
-  env.value.setSnow(!snow.value)
+  env.value.setSnow(!envOpt.value.isSnow)
 }
 
-const light = ref()
 function setLightType() {
-  env.value.setLightType(light.value)
+  env.value.setLightType(envOpt.value.lightType)
 }
 
-const lighting = ref(true)
 function setLighting() {
-  env.value.setLighting(!lighting.value)
+  env.value.setLighting(!envOpt.value.showLight)
 }
 
-const fog = ref(true)
 function setFog() {
-  env.value.setFog(!fog.value)
+  env.value.setFog(!envOpt.value.isFog)
 }
 
-const atmosphere = ref(true)
 function setAtmosphere(){
-  env.value.setAtmosphere(!atmosphere.value)
+  env.value.setAtmosphere(!envOpt.value.showAir)
 }
 
-const mode = ref("3D")
 function setMode(){
-  env.value.setMapMode(mode.value)
+  env.value.setMapMode(envOpt.value.mapMode)
 }
 
 onMounted(() => {
@@ -95,8 +101,7 @@ onMounted(() => {
     shouldAnimate: true,
   });
 
-  env.value = new CesiumEnv(viewer, {
-  })
+  env.value = new CesiumEnv(viewer, envOpt.value)
 
   viewer.scene.camera.setView({
     destination: new Cesium.Cartesian3(

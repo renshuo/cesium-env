@@ -13,8 +13,9 @@ export default class CesiumEnv {
     isSnow: false,
     isFog: false,
 
-    showAir: false,
-    showLight: false,
+    showAir: true,
+    showLight: true,
+    lightType: 'Sun',
 
     showCredit: false,
 
@@ -39,6 +40,7 @@ export default class CesiumEnv {
 
     this.setAtmosphere(this.env.showAir)
     this.setLighting(this.env.showLight)
+    this.setLightType(this.env.lightType)
 
     if (!this.env.showCredit) {
       viewer._cesiumWidget._creditContainer.style.display = "none"; // 隐藏logo
