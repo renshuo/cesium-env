@@ -42,7 +42,6 @@ import CesiumEnv from './env/index.ts'
 
 const env = ref()
 
-
 const rain = ref(false)
 function setRain() {
   env.value.setRain(!rain.value)
@@ -98,6 +97,19 @@ onMounted(() => {
 
   env.value = new CesiumEnv(viewer, {
   })
+
+  viewer.scene.camera.setView({
+    destination: new Cesium.Cartesian3(
+      277096.634865404,
+      5647834.481964232,
+      2985563.7039122293
+    ),
+    orientation: {
+      heading: 4.731089976107251,
+      pitch: -0.32003481981370063,
+    },
+  });
+
 });
 </script>
 

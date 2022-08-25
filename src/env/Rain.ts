@@ -6,19 +6,47 @@ export default class CesiumRain {
 
   scene: Cesium.Scene
 
-  rain: Cesium.ParticleSystem
+  rain: Cesium.ParticleSystem | undefined
 
   constructor(scene: Cesium.Scene) {
     this.scene = scene
   }
 
-
   public setRain(isRain: boolean) {
     console.log('set rain: ', isRain)
     if (isRain) {
-      this.startRain()
+      this.start()
     } else {
-      this.stopRain()
+      this.stop()
+    }
+  }
+
+  public toggleRain() {
+    if (this.rain) {
+      this.stop()
+    } else {
+      this.start()
+    }
+  }
+
+  private stop() {
+    if (this.rain) {
+      this.scene.primitives.remove(this.rain)
+      this.rain = undefined
+    } else {
+      console.log('no rain')
+    }
+  }
+
+  private start() {
+    if (this.rain) {
+      console.log("rain setted")
+    } else {
+      this.scene.globe.depthTestAgainstTerrain = true;
+      this.rain = this.init()
+      //this.scene.primitives.removeAll();
+      this.scene.primitives.add(this.rain);
+      //this.setRainAtmosphere()
     }
   }
 
@@ -30,6 +58,7 @@ export default class CesiumRain {
   );
 
   private init(): Cesium.ParticleSystem {
+    console.log("init rain")
     return new Cesium.ParticleSystem({
       modelMatrix: new Cesium.Matrix4.fromTranslation(this.scene.camera.position),
       speed: -1.0,
@@ -66,37 +95,11 @@ export default class CesiumRain {
     })
   }
 
-
-  stopRain() {
-    this.scene.primitives.remove(this.rain)
-  }
-
-  startRain() {
-    this.scene.globe.depthTestAgainstTerrain = true;
-    this.rain = this.init()
-    this.scene.primitives.removeAll();
-    this.scene.primitives.add(this.rain);
+  private setRainAtmosphere() {
     this.scene.skyAtmosphere.hueShift = -0.97;
     this.scene.skyAtmosphere.saturationShift = 0.25;
     this.scene.skyAtmosphere.brightnessShift = -0.4;
     this.scene.fog.density = 0.00025;
     this.scene.fog.minimumBrightness = 0.01;
   }
-
-  private testCamera() {
-    this.scene.camera.setView({
-      destination: new Cesium.Cartesian3(
-        277096.634865404,
-        5647834.481964232,
-        2985563.7039122293
-      ),
-      orientation: {
-        heading: 4.731089976107251,
-        pitch: -0.32003481981370063,
-      },
-    });
-  }
-
-
-
 }

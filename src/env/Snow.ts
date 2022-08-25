@@ -5,10 +5,46 @@ export default class CesiumSnow {
 
   scene: Cesium.Scene
 
-  snow: Cesium.ParticleSystem
+  snow: Cesium.ParticleSystem | undefined
 
   constructor(scene: Cesium.Scene) {
     this.scene = scene
+  }
+
+  public setSnow(isSnow: boolean) {
+    console.log('set snow: ', isSnow)
+    if (isSnow) {
+      this.start()
+    } else {
+      this.stop()
+    }
+  }
+
+  public toggleSnow() {
+    if (this.snow) {
+      this.stop()
+    } else {
+      this.start()
+    }
+  }
+
+  private stop() {
+    if (this.snow) {
+      this.scene.primitives.remove(this.snow)
+    } else {
+      console.log("no snow")
+    }
+  }
+
+  private start() {
+    if (this.snow) {
+      console.log("snow setted")
+    }
+    this.scene.globe.depthTestAgainstTerrain = true;
+    this.snow = this.init()
+    // this.scene.primitives.removeAll();
+    this.scene.primitives.add(this.snow);
+    //this.setSnowAtmosphere()
   }
 
   snowParticleSize = 12.0;
@@ -40,7 +76,6 @@ export default class CesiumSnow {
       maximumImageSize: this.maximumSnowImageSize,
       updateCallback: (particle, dt) => {
         let snowGravityScratch = new Cesium.Cartesian3();
-
         snowGravityScratch = Cesium.Cartesian3.normalize(
           particle.position,
           snowGravityScratch
@@ -61,24 +96,7 @@ export default class CesiumSnow {
     })
   }
 
-  public setSnow(isSnow: boolean) {
-    console.log('set snow: ', isSnow)
-    if (isSnow) {
-      this.startSnow()
-    } else {
-      this.stopSnow()
-    }
-  }
-
-  stopSnow() {
-    this.scene.primitives.remove(this.snow)
-  }
-
-  startSnow() {
-    this.scene.globe.depthTestAgainstTerrain = true;
-    this.snow = this.init()
-    this.scene.primitives.removeAll();
-    this.scene.primitives.add(this.snow);
+  private setSnowAtmosphere() {
     this.scene.skyAtmosphere.hueShift = -0.8;
     this.scene.skyAtmosphere.saturationShift = -0.7;
     this.scene.skyAtmosphere.brightnessShift = -0.33;
@@ -86,17 +104,4 @@ export default class CesiumSnow {
     this.scene.fog.minimumBrightness = 0.8;
   }
 
-  private testCamera() {
-    this.scene.camera.setView({
-      destination: new Cesium.Cartesian3(
-        277096.634865404,
-        5647834.481964232,
-        2985563.7039122293
-      ),
-      orientation: {
-        heading: 4.731089976107251,
-        pitch: -0.32003481981370063,
-      },
-    });
-  }
 }

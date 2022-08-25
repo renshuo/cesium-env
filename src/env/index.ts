@@ -12,11 +12,13 @@ export default class CesiumEnv {
     isRain: false,
     isSnow: false,
     isFog: false,
-    showConstellation: false,
+
     showAir: false,
     showLight: false,
 
     showCredit: false,
+
+    mapMode: '3D',
   }
 
   private viewer: Cesium.Viewer
@@ -31,9 +33,18 @@ export default class CesiumEnv {
     this.rain = new CesiumRain(viewer.scene)
 
     Object.assign(this.env, env)
+    this.setRain(this.env.isRain)
+    this.setSnow(this.env.isSnow)
+    this.setFog(this.env.isFog)
+
+    this.setAtmosphere(this.env.showAir)
+    this.setLighting(this.env.showLight)
+
     if (!this.env.showCredit) {
       viewer._cesiumWidget._creditContainer.style.display = "none"; // 隐藏logo
     }
+
+    this.setMapMode(this.env.mapMode)
   }
 
   /**
@@ -42,11 +53,20 @@ export default class CesiumEnv {
   public setRain(isShow: boolean) {
     this.rain.setRain(isShow)
   }
+
+  public toggleRain() {
+    this.rain.toggleRain()
+  }
+
   /**
     设置是否下雪
   */
   public setSnow(isShow: boolean) {
     this.snow.setSnow(isShow)
+  }
+
+  public toggleSnow() {
+    this.snow.toggleSnow()
   }
 
   /**
@@ -61,37 +81,28 @@ export default class CesiumEnv {
     }
   }
 
-  /**
-     设置光类型
+  /** 设置光类型
   */
   public setLightType(light: string): void {
     this.cl.setLightType(LightType[light])
   }
 
-
-  /**
-    设置是否显示大气层
+  /** 设置是否显示大气层
   */
   public setAtmosphere(isShow: boolean) {
     console.log('set atmosphere: ', isShow)
-    if (isShow === undefined) {
-      this.viewer.scene.skyAtmosphere.show = !this.viewer.scene.skyAtmosphere.show
-    } else {
-      this.viewer.scene.skyAtmosphere.show = isShow
-    }
+    this.viewer.scene.skyAtmosphere.show = isShow
   }
 
   /** 设置是否显示雾
    */
   public setFog(isShow: boolean): void {
     console.log('set fog: ', isShow)
-    if (isShow === undefined) {
-      this.viewer.scene.fog.enabled = !this.viewer.scene.fog.enabled
-    } else {
-      this.viewer.scene.fog.enabled = isShow
-    }
+    this.viewer.scene.fog.enabled = isShow
   }
 
+  /** 设置地图模式
+  */
   public setMapMode(mapMode: string): void {
     console.log("set map mode : ", mapMode)
     switch(mapMode) {
