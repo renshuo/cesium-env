@@ -1,5 +1,5 @@
 import * as Cesium from 'cesium';
-
+import img1 from './circular_particle.png'
 
 
 export default class CesiumRain {
@@ -10,6 +10,7 @@ export default class CesiumRain {
 
   constructor(scene: Cesium.Scene) {
     this.scene = scene
+    console.log("create rain obj: ", img1)
   }
 
   public setRain(isRain: boolean) {
@@ -66,7 +67,7 @@ export default class CesiumRain {
       emitter: new Cesium.SphereEmitter(this.rainRadius),
       startScale: 1.0,
       endScale: 0.0,
-      image: "/circular_particle.png",
+      image: img1,
       emissionRate: 9000.0,
       startColor: new Cesium.Color(0.27, 0.5, 0.7, 0.0),
       endColor: new Cesium.Color(0.27, 0.5, 0.7, 0.98),

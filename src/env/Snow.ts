@@ -1,5 +1,5 @@
 import * as Cesium from 'cesium';
-
+import img from './snowflake_particle.png'
 
 export default class CesiumSnow {
 
@@ -68,7 +68,7 @@ export default class CesiumSnow {
       emitter: new Cesium.SphereEmitter(this.snowRadius),
       startScale: 0.5,
       endScale: 1.0,
-      image: "../snowflake_particle.png",
+      image: img,
       emissionRate: 7000.0,
       startColor: Cesium.Color.WHITE.withAlpha(0.0),
       endColor: Cesium.Color.WHITE.withAlpha(1.0),
