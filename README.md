@@ -42,3 +42,28 @@ mapMode取值为：
 3D, 2D, co
 ```
 co是2.5D模式的地图
+
+
+## 选择影像底图
+
+获取可用的影像底图名称
+```
+  env.imageLayer.getLayers()
+```
+
+设置使用影像底图
+```
+  env.imageLayer.setLayer('bingMap')
+```
+
+## 选择地形底图
+
+获取可用的影像底图名称
+```
+  env.terrainLayer.getLayers()
+```
+
+设置使用影像底图
+```
+  env.terrainLayer.setLayer('bingMap')
+```

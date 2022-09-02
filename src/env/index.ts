@@ -3,6 +3,8 @@ import {LightType, CesiumLight} from './Light';
 
 import CesiumSnow from './Snow';
 import CesiumRain from './Rain';
+import CesiumImageLayer from './ImageLayer';
+import CesiumTerrainLayer from './TerrainLayer';
 
 export {LightType}
 
@@ -27,11 +29,18 @@ export default class CesiumEnv {
   private snow: CesiumSnow
   private rain: CesiumRain
 
+  /* 影像底图类*/
+  public imageLayer: CesiumImageLayer
+  /* 地形底图类*/
+  public terrainLayer: CesiumTerrainLayer
+
   constructor(viewer: Cesium.Viewer, env: {}) {
     this.viewer = viewer
     this.cl = new CesiumLight(viewer)
     this.snow = new CesiumSnow(viewer.scene)
     this.rain = new CesiumRain(viewer.scene)
+    this.imageLayer = new CesiumImageLayer(viewer)
+    this.terrainLayer = new CesiumTerrainLayer(viewer)
 
     Object.assign(this.env, env)
     this.setRain(this.env.isRain)
@@ -49,6 +58,9 @@ export default class CesiumEnv {
     this.setMapMode(this.env.mapMode)
   }
 
+  public test(isTest: boolean) {
+    
+  }
   /**
     设置是否下雨
   */
@@ -121,4 +133,5 @@ export default class CesiumEnv {
         console.error("invalid mode: ", mapMode)
     }
   }
+
 }

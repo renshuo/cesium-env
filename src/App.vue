@@ -26,6 +26,13 @@
         <option label="2.5D" value="co" />
       </select>
 
+      <select v-model="envOpt.imageLayer" @change="setImageLayer" >
+        <option v-for="l in envOpt.imageLayers" :key="l" :label="l" :value="l" />
+      </select>
+      <select v-model="envOpt.terrainLayer" @change="setTerrainLayer">
+        <option v-for="l in envOpt.terrainLayers" :key="l" :label="l" :value="l" />
+      </select>
+
     </div>
 
     <div id="mapContainer"></div>
@@ -54,6 +61,10 @@ const envOpt = ref({
   showCredit: false,
 
   mapMode: '3D',
+  imageLayer: 'default',
+  imageLayers: [],
+  terrainLayer: 'default',
+  terrainLayers: [],
 })
 function setRain() {
   env.value.setRain(!envOpt.value.isRain)
@@ -81,6 +92,13 @@ function setAtmosphere(){
 
 function setMode(){
   env.value.setMapMode(envOpt.value.mapMode)
+}
+
+function setImageLayer() {
+  env.value.imageLayer.setLayer(envOpt.value.imageLayer)
+}
+function setTerrainLayer() {
+  env.value.terrainLayer.setLayer(envOpt.value.terrainLayer)
 }
 
 onMounted(() => {
@@ -114,6 +132,8 @@ onMounted(() => {
       pitch: -0.32003481981370063,
     },
   });
+  envOpt.value.imageLayers = env.value.imageLayer.getLayers()
+  envOpt.value.terrainLayers = env.value.terrainLayer.getLayers()
 
 });
 </script>
